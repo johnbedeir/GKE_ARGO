@@ -7,15 +7,23 @@ terraform {
     random = {
       source = "hashicorp/random"
     }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.0"
+    }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "~> 2.5"
+    }
   }
 
   required_version = ">= 0.12"
 }
 
 provider "google" {
-  credentials = file("gcp-credentials.json")
-  project     = var.project_id
-  region      = var.region
+  #credentials = file("gcp-credentials.json")
+  project = var.project_id
+  region  = var.region
 }
 
 provider "kubernetes" {
@@ -24,16 +32,6 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(
     google_container_cluster.primary.master_auth[0].cluster_ca_certificate,
   )
-}
-
-provider "helm" {
-  kubernetes {
-    host  = google_container_cluster.primary.endpoint
-    token = data.google_client_config.default.access_token
-    cluster_ca_certificate = base64decode(
-      google_container_cluster.primary.master_auth[0].cluster_ca_certificate,
-    )
-  }
 }
 
 data "google_client_config" "default" {}
