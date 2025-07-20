@@ -22,6 +22,6 @@ resource "google_compute_subnetwork" "private_subnet" {
   ip_cidr_range = "10.0.2.0/24"
   network       = google_compute_network.vpc_network.self_link
 
-  // Ensures VMs in this subnet cannot be assigned public IPs
+  // Ensures VMs in this subnet cannot be assigned private IPs
   private_ip_google_access = true
 }
