@@ -24,6 +24,13 @@ resource "google_container_cluster" "primary" {
       issue_client_certificate = false
     }
   }
+
+  node_config {
+    service_account = "terraform-sa@johnydev.iam.gserviceaccount.com"
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/cloud-platform"
+    ]
+  }
 }
 
 resource "google_container_node_pool" "primary_nodes" {
@@ -40,6 +47,11 @@ resource "google_container_node_pool" "primary_nodes" {
   node_config {
     preemptible  = false
     machine_type = "e2-medium"
+
+    service_account = "terraform-sa@johnydev.iam.gserviceaccount.com"
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/cloud-platform"
+    ]
 
     // Assign nodes to the private subnet
     tags = ["gke-node", "private-subnet"]

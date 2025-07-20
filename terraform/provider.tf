@@ -13,8 +13,9 @@ terraform {
 }
 
 provider "google" {
-  project = var.project_id
-  region  = var.region
+  credentials = file("gcp-credentials.json")
+  project     = var.project_id
+  region      = var.region
 }
 
 provider "kubernetes" {
