@@ -1,22 +1,22 @@
-variable "argocd_values" {
-  type    = string
-  default = <<EOF
-    server:
-      service:
-        type: LoadBalancer
-    EOF
-}
+# variable "argocd_values" {
+#   type    = string
+#   default = <<EOF
+#     server:
+#       service:
+#         type: LoadBalancer
+#     EOF
+# }
 
-resource "helm_release" "argocd" {
-  name             = "argocd"
-  repository       = "https://argoproj.github.io/argo-helm"
-  chart            = "argo-cd"
-  version          = "8.1.1"
-  cleanup_on_fail  = true
-  namespace        = "argocd"
-  create_namespace = true
+# resource "helm_release" "argocd" {
+#   name             = "argocd"
+#   repository       = "https://argoproj.github.io/argo-helm"
+#   chart            = "argo-cd"
+#   version          = "8.1.1"
+#   cleanup_on_fail  = true
+#   namespace        = "argocd"
+#   create_namespace = true
 
-  values = [var.argocd_values]
+#   values = [var.argocd_values]
 
-  depends_on = [google_container_cluster.primary]
-}
+#   depends_on = [google_container_cluster.primary]
+# }

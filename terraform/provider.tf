@@ -7,13 +7,9 @@ terraform {
     random = {
       source = "hashicorp/random"
     }
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = "~> 2.0"
-    }
     helm = {
       source  = "hashicorp/helm"
-      version = "~> 2.5"
+      version = "~> 2.1"
     }
   }
 
@@ -21,9 +17,9 @@ terraform {
 }
 
 provider "google" {
-  #credentials = file("gcp-credentials.json")
-  project = var.project_id
-  region  = var.region
+  credentials = file("gcp-credentials.json")
+  project     = var.project_id
+  region      = var.region
 }
 
 provider "kubernetes" {
@@ -35,3 +31,9 @@ provider "kubernetes" {
 }
 
 data "google_client_config" "default" {}
+
+provider "helm" {
+  kubernetes {
+    config_path = "~/.kube/config"
+  }
+}
